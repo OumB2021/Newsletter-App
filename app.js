@@ -40,9 +40,9 @@ app.post("/", function(req, res){
   const request = https.request(url, options, function(response){
 
     if (response.statusCode === 200){
-      res.send("Sucessfully subscribed")
+      res.sendFile(__dirname + "/sucess.html");
     }else{
-      res.send("Failed to subscribe");
+      res.sendFile(__dirname + "/failure.html");
     }
 
     response.on("data", function(data){
@@ -52,8 +52,12 @@ app.post("/", function(req, res){
   });
 
   request.write(jsonData);
-  request.end();
+  // request.end();
 
+});
+
+app.post('/failure', function(req, res){
+  res.redirect("/");
 });
 
 app.listen(3000, function(){
