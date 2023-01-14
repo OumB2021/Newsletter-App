@@ -1,5 +1,6 @@
 const express = require('express');
 const request = require('request');
+const https = require('https');
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -25,15 +26,25 @@ app.post("/", function(req, res){
             LNAME: lastName
         }
     }]
-  };
+
+  }
 
   var jsonData = JSON.stringify(data);
+  const url = "https://us8.api.mailchimp.com/3.0/lists/e4b700f286";
 
-  const url = 
+  const options={
+    method: "POST",
+    auth: "OumB94:d14473a575136c7aebeba86ac5d46607-us8"
+  }
 
-  https.request(url, options, function(response){
-
+  const request = https.request(url, options, function(response){
+    response.on("data", function(data){
+      console.log(JSON.parse(data));
+    });
   });
+
+  request.write(jsonData);
+  request.end();
 
 });
 
